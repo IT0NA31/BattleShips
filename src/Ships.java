@@ -3,9 +3,20 @@ import java.util.Objects;
 public class Ships {
 
     private void setShip(String[][] playingGround, int posX, int posY){
-        playingGround[posY][posX] = "S";
-        for (int i = (posX <= 0)? posX : posX -1; i <= ((posX >=9)? posX : posX +1); i++) {
-            for (int j = (posY <= 0)? posY : posY -1; j <= ((posY >=9)? posY : posY +1); j++) {
+        try{
+            playingGround[posY][posX] = "S";
+        } catch (ArrayIndexOutOfBoundsException e){
+            System.err.println("Youz stoopid no arrayz out of bounds!!! " + e);
+        }
+        /*
+            To be used for debugging:
+        System.out.println("PosX: " + posX + " / PosY: " + posY);
+        System.out.println("- - - - - - - ");
+         */
+        for (int i = (posX <= 0)? 0 : posX -1; i <= ((posX >= 9)? 9 : posX +1); i++) {
+            for (int j = (posY <= 0)? 0 : posY -1; j <= ((posY >= 9)? 9 : posY +1); j++) {
+                System.out.println("X: " + i + " / Y: " + j);
+                System.out.println("- - - - - - - ");
                 if(Objects.equals(playingGround[j][i], "0")) {
                     playingGround[j][i] = "X";
                 }
@@ -13,27 +24,9 @@ public class Ships {
         }
     }
 
-
-    public void craftShipX(String[][] playingGround, int posX, int posY, int size) { //method to create horizontal ships on the board
-        if (!Objects.equals(playingGround[posY][posX], "X") || !Objects.equals(playingGround[posY][posX], "S")){
-            for (int i = 0; i < 10; i++) {
-                if (i < size) { //making sure that Ships are a certain size
-                    setShip(playingGround, posX + i, posY);
-                }
-            }
-        } else {
-            System.err.println("Space already occupied!");
-        }
-    }
-
-
-    public void craftShipY(String[][] playingGround, int posX, int posY, int size) { //method to create vertical ships on the board
-        if (!Objects.equals(playingGround[posX][posY], "X") || !Objects.equals(playingGround[posX][posY], "S")) {
-            for (int i = 0; i < 10; i++) {
-                if (i < size) { //making sure that Ships are a certain size
-                    setShip(playingGround, posX, posY + 1);
-                }
-            }
+    public void craftShip(String[][] playingGround, int posX, int posY, boolean rotation, int size){
+        for (int i = 0; i < size; i++){
+            setShip(playingGround, (rotation)? posX + i: posX, (rotation)? posY : posY + i);
         }
     }
 }

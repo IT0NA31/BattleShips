@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         String[][] PlayingGround = {
                 {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
                 {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
@@ -31,7 +30,7 @@ public class Main {
 
         p1.printField();
 
-        p1.placeShip('A', 2, true, "sub");
+        p1.placeShip();
 
         p1.printField();
     }

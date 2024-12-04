@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class User extends Ships implements Player{
     /*
@@ -16,36 +17,47 @@ public class User extends Ships implements Player{
         this.groundOpp = groundOpp;
     }
 
+    private int convert(int i){
+        int out = i - 48;
+
+        if(out < 10){
+            return out;
+        } else {
+            return out - 17;
+        }
+    }
 
     @Override
-    public void placeShip(char posX, int posY, boolean rotation, String type){
-        int size = switch (type) {
-            case "Battleship", "bat" -> 5;
-            case "Cruiser", "cru" -> 4;
-            case "Destroyer", "des" -> 3;
-            case "Submarine", "sub" -> 2;
-            default -> 0;
-        };
+    public void placeShip(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Now pick the first coordinate of your ship:");
+        String in = sc.nextLine();
+        int len = in.length();
+        char x1 = in.charAt(0);
+        char y1 = in.charAt(len - 1);
 
-        int coordX = switch (posX){
-            case 'A' -> 0;
-            case 'B' -> 1;
-            case 'C' -> 2;
-            case 'D' -> 3;
-            case 'E' -> 4;
-            case 'F' -> 5;
-            case 'G' -> 6;
-            case 'H' -> 7;
-            case 'I' -> 8;
-            case 'J' -> 9;
-            default -> 0;
-        };
+        System.out.println("Now pick the second coordinate of your ship:");
+        in = sc.nextLine();
+        len = in.length();
+        char x2 = in.charAt(0);
+        char y2 = in.charAt(len - 1);
 
-        if (rotation) {
-            super.craftShipX(groundPlay, coordX, posY, size);
-        } else {
-            super.craftShipY(groundPlay, coordX, posY, size);
-        }
+        int posX1 = convert(x1);
+        int posX2 = convert(x2);
+        int posY1 = convert(y1);
+        int posY2 = convert(y2);
+
+        System.out.println("posX1: " + posX1);
+        System.out.println("posX2: " + posX2);
+        System.out.println("posY1: " + posY1);
+        System.out.println("posY2: " + posY2);
+        System.out.println("- - - - - - -");
+
+        int size = Math.abs(posX1 - posX2) + Math.abs(posY1 - posY2) + 1;
+        System.out.println("size: " + size);
+        System.out.println("- - - - - - -");
+
+        craftShip(groundPlay, Math.min(posX1, posX2), Math.min(posY1, posY2), posX1 != posX2, size);
     }
 
     @Override
@@ -53,6 +65,7 @@ public class User extends Ships implements Player{
         //use variable groundOpp instead of playingGround
     }
 
+    @Override
     public void printField(){
         for(int j = 0; j < 10; j++){
             System.out.println();
