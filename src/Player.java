@@ -1,7 +1,7 @@
 public interface Player {
-    void placeShip();
+    boolean placeShip();
 
     void shoot(char posX, int posY);
 
-    public void printField();
+    void printField();
 }

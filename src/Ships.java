@@ -3,20 +3,9 @@ import java.util.Objects;
 public class Ships {
 
     private void setShip(String[][] playingGround, int posX, int posY){
-        try{
-            playingGround[posY][posX] = "S";
-        } catch (ArrayIndexOutOfBoundsException e){
-            System.err.println("Youz stoopid no arrayz out of bounds!!! " + e);
-        }
-        /*
-            To be used for debugging:
-        System.out.println("PosX: " + posX + " / PosY: " + posY);
-        System.out.println("- - - - - - - ");
-         */
+        playingGround[posY][posX] = "S";
         for (int i = (posX <= 0)? 0 : posX -1; i <= ((posX >= 9)? 9 : posX +1); i++) {
             for (int j = (posY <= 0)? 0 : posY -1; j <= ((posY >= 9)? 9 : posY +1); j++) {
-                System.out.println("X: " + i + " / Y: " + j);
-                System.out.println("- - - - - - - ");
                 if(Objects.equals(playingGround[j][i], "0")) {
                     playingGround[j][i] = "X";
                 }
@@ -24,9 +13,9 @@ public class Ships {
         }
     }
 
-    public void craftShip(String[][] playingGround, int posX, int posY, boolean rotation, int size){
+    public void craftShip(String[][] playingGround, int posX, int posY, int rotation, int size){
         for (int i = 0; i < size; i++){
-            setShip(playingGround, (rotation)? posX + i: posX, (rotation)? posY : posY + i);
+            setShip(playingGround, (rotation >= 1)? posX + ((rotation == 2)? + i : -i) : posX, (rotation <= -1)? posY + ((rotation == -2)? + i : -i) : posY);
         }
     }
 }
