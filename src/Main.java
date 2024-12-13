@@ -1,6 +1,4 @@
 import java.util.Arrays;
-import java.util.Scanner;
-
 
 public class Main {
     public static void main(String[] args) {
@@ -30,7 +28,8 @@ public class Main {
 
         p1.printField();
 
-        p1.placeShip();
+        if(p1.placeShip())
+            System.out.println();
 
         p1.printField();
     }

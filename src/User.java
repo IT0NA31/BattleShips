@@ -32,7 +32,7 @@ public class User extends Ships implements Player{
         boolean err = false;
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Now pick the first coordinate of your ship:");
+        System.out.println("Please pick the first coordinate of your ship:");
         String in = sc.nextLine();
         int len = in.length();
         char x1 = in.charAt(0);
@@ -45,7 +45,7 @@ public class User extends Ships implements Player{
         System.out.println("posY1: " + posY1);
         System.out.println("- - - - - - -");
 
-        System.out.println("Please enter the type of ship");
+        System.out.println("Now enter the type of ship");
         System.out.println("Choose one of the following:");
         System.out.println("Battleship -> Bat");
         System.out.println("Cruiser -> Cru");
@@ -60,7 +60,7 @@ public class User extends Ships implements Player{
             default -> 0;
         };
 
-        System.out.println("Please enter the direction of your ship");
+        System.out.println("Furthermore, enter the direction of your ship");
         System.out.println("Options: up, down, left, right");
         in = sc.nextLine();
         int rotation = switch(in){
@@ -93,7 +93,7 @@ public class User extends Ships implements Player{
 
     @Override
     public void printField(){
-        int conSize = 30;
+        int conSize = 40;
         int delSize = 10;
 
         for(int i = 0; i < delSize; i++)
