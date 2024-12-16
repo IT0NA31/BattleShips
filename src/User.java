@@ -4,4 +4,6 @@ public interface User {
     void shoot();
 
     void printField();
+
+    boolean isGameOver();
 }

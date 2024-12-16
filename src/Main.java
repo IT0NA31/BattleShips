@@ -1,6 +1,14 @@
 import java.util.Arrays;
 
 public class Main {
+
+    private static void clearScreen(){
+        int delSize = 40;
+
+        for(int i = 0; i < delSize; i++)
+            System.out.println();
+    }
+
     public static void main(String[] args) {
 
         //setting up the game
@@ -18,28 +26,31 @@ public class Main {
                 {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"}};
 
         String[][] p1Play = new String[PlayingGround.length][];
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 10; i++)
             p1Play[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
-        }
 
         String[][] p1Opp = new String[PlayingGround.length][];
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 10; i++)
             p1Opp[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
-        }
+
+        String[][] p1Transfer = new String[PlayingGround.length][];
+        for(int i = 0; i < 10; i++)
+            p1Transfer[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
 
         String[][] p2Play = new String[PlayingGround.length][];
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 10; i++)
             p2Play[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
-        }
 
         String[][] p2Opp = new String[PlayingGround.length][];
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 10; i++)
             p2Opp[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
-        }
 
-        Player p1 = new Player(p1Play, p1Opp);
-        Player p2 = new Player(p2Play, p2Opp);
+        String[][] p2Transfer = new String[PlayingGround.length][];
+        for(int i = 0; i < 10; i++)
+            p2Transfer[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
 
+        Player p1 = new Player(p1Play, p1Opp, p1Transfer);
+        Player p2 = new Player(p2Play, p2Opp, p2Transfer);
 
         //main game loop
 
@@ -54,37 +65,46 @@ public class Main {
                     player = true;
                 }
 
+                clearScreen();
                 if(player){
                     System.out.println(" - User 1 - ");
-                    player = p1.placeShip();
+                    p1.printField();
+                    p1.placeShip();
+                    player = false;
                 } else {
                     System.out.println(" - User 2 - ");
-                    player = p2.placeShip();
+                    p2.printField();
+                    p2.placeShip();
+                    player = true;
                 }
 
-                if(p1.isSetupOver() && p2.isSetupOver())
+                if(p1.isSetupOver() && p2.isSetupOver()) {
                     setupPhase = false;
+                    p1.transfer(p2.getGround());
+                    p2.transfer(p1.getGround());
+                }
             } else {
-                //insert playing phase
-                running  = false;
+                clearScreen();
+                if(player){
+                    System.out.println(" - User 1 - ");
+                    p1.printField();
+                    p1.shoot();
+                    player = false;
+                } else {
+                    System.out.println(" - User 2 - ");
+                    p2.printField();
+                    p2.shoot();
+                    player = true;
+                }
+
+                if(p1.isGameOver() || p2.isGameOver()) {
+                    running = false;
+                    System.out.println(" - Gamer Over - ");
+                }
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
