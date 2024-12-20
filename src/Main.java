@@ -1,56 +1,37 @@
-import java.util.Arrays;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
+    // These are QOL Variables to be changed at will
+    /*
+       'delSize' is the amount of empty lines printed between player screen prints, so it's used for obfuscation
+       'eep' is the amount of time one has to switch the screens between different players
+     */
+    private static final int delSize = 40;
+    private static final int eep = 5;
 
     private static void clearScreen(){
-        int delSize = 40;
-
         for(int i = 0; i < delSize; i++)
             System.out.println();
     }
 
-    public static void main(String[] args) {
-
+    private static void playermatch() throws InterruptedException {
         //setting up the game
 
-        String[][] PlayingGround = {
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"}};
+        String[][] playingGround = {
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "}};
 
-        String[][] p1Play = new String[PlayingGround.length][];
-        for(int i = 0; i < 10; i++)
-            p1Play[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
-
-        String[][] p1Opp = new String[PlayingGround.length][];
-        for(int i = 0; i < 10; i++)
-            p1Opp[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
-
-        String[][] p1Transfer = new String[PlayingGround.length][];
-        for(int i = 0; i < 10; i++)
-            p1Transfer[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
-
-        String[][] p2Play = new String[PlayingGround.length][];
-        for(int i = 0; i < 10; i++)
-            p2Play[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
-
-        String[][] p2Opp = new String[PlayingGround.length][];
-        for(int i = 0; i < 10; i++)
-            p2Opp[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
-
-        String[][] p2Transfer = new String[PlayingGround.length][];
-        for(int i = 0; i < 10; i++)
-            p2Transfer[i] = Arrays.copyOf(PlayingGround[i], PlayingGround.length);
-
-        Player p1 = new Player(p1Play, p1Opp, p1Transfer);
-        Player p2 = new Player(p2Play, p2Opp, p2Transfer);
+        Player p1 = new Player(playingGround, playingGround, playingGround);
+        Player p2 = new Player(playingGround, playingGround, playingGround);
 
         //main game loop
 
@@ -66,7 +47,14 @@ public class Main {
                 }
 
                 clearScreen();
-                if(player){
+                for(int i = eep; i > 0; i--) {
+                    System.out.println();
+                    System.out.println(i);
+                    TimeUnit.SECONDS.sleep(1);
+                }
+                clearScreen();
+
+                if(player) {
                     System.out.println(" - User 1 - ");
                     p1.printField();
                     p1.placeShip();
@@ -84,6 +72,12 @@ public class Main {
                     p2.transfer(p1.getGround());
                 }
             } else {
+                clearScreen();
+                for(int i = eep; i > 0; i--) {
+                    System.out.println();
+                    System.out.println(i);
+                    TimeUnit.SECONDS.sleep(1);
+                }
                 clearScreen();
                 if(player){
                     System.out.println(" - User 1 - ");
@@ -104,115 +98,66 @@ public class Main {
             }
         }
     }
-}
 
+    private static void botmatch() throws InterruptedException {
+        // Setting up the game
 
+        String[][] playingGround = {
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "}};
 
+        Player p1 = new Player(playingGround, playingGround, playingGround);
+        Bot b1 = new Bot(playingGround, playingGround, playingGround);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String[][] PlayingGround = {
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"},
-                {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"}};
-
+        // main game loop
 
         boolean running = true;
-        String[][] p1Play= PlayingGround;
-        String[][] p1Opp= PlayingGround;
-        String[][] p2Play= PlayingGround;
-        String[][] p2Opp= PlayingGround;
-        Player p1 = new Player(p1Play, p1Opp);
-        Player p2 = new Player(p2Play, p2Opp);
-        boolean user = true;
-        while(running){
-            switch(sc.nextLine()) {
-                case "exit":
-                    running = false;
-                    break;
-                case "place":
-                    if(user){
-                        System.out.println("Choose one of the following:");
-                        System.out.println("Battleship -> Bat");
-                        System.out.println("Cruiser -> Cru");
-                        System.out.println("Destroyer -> Des");
-                        System.out.println("Submarine -> Sub");
-                        String type = sc.nextLine();
-
-                        System.out.println("Now pick an X Coordinate");
-                        int posX = switch (sc.nextLine()){
-                            case "A" -> 0;
-                            case "B" -> 1;
-                            case "C" -> 2;
-                            case "D" -> 3;
-                            case "E" -> 4;
-                            case "F" -> 5;
-                            case "G" -> 6;
-                            case "H" -> 7;
-                            case "I" -> 8;
-                            case "J" -> 9;
-                            default -> 0;
-                        };
-
-                        System.out.println("Now pick a Y Coordinate");
-                        int posY = sc.nextInt();
-
-                        System.out.println("Now pick a direction");
-                        System.out.println("Horizontal -> X");
-                        System.out.println("Vertical -> Y");
-                        boolean rotation = switch (sc.nextLine()){
-                            case "X" -> true;
-                            case "Y" -> false;
-                            default -> true;
-                        };
-
-                        p1.placeShip(posX , posY, rotation, type);
-
-                        p1.printField();
-                        user = !user;
-                    } else {
-                        //copy code from above and replace p1 to p2
-                        user = !user;
-                    }
-                    break;
-
+        boolean player = true;
+        boolean setupPhase = true;
+        while(running) {
+            clearScreen();
+            if (setupPhase) {
+                p1.placeShip();
+                if(p1.isSetupOver()){
+                    setupPhase = false;
+                    p1.transfer(b1.getGround());
+                    b1.transfer(p1.getGround());
+                }
+            } else {
+                clearScreen();
+                for(int i = eep; i > 0; i--) {
+                    System.out.println();
+                    System.out.println(i);
+                    TimeUnit.SECONDS.sleep(1);
+                }
+                clearScreen();
+            }
+            if(p1.isGameOver() || b1.isGameOver()) {
+                running = false;
+                System.out.println(" - Gamer Over - ");
             }
         }
     }
+
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("- - - - Greetings Player - - - -");
+        System.out.println("Do you wish to play against a Bot? (y/n)");
+        Scanner sc = new Scanner(System.in);
+        boolean playermatch = switch (sc.nextLine()){
+            case "y", "player" -> true;
+            default -> false;
+        };
+        if(playermatch)
+            playermatch();
+        else
+            botmatch();
+    }
 }
-*/

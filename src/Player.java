@@ -2,6 +2,9 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * The main class used for user inputs and user-to-user gameplay
+ */
 public class Player extends Ships implements User {
     /*
     ein Schlachtschiff (5 Kästchen) -> Battleship
@@ -17,12 +20,14 @@ public class Player extends Ships implements User {
     private int des = 3;
     private int sub = 4;
 
-    private int shipFields = bat * 5 + cru * 4 + des * 3 + sub * 2;
+    private final int shipFields = bat * 5 + cru * 4 + des * 3 + sub * 2;
     private int hits = 0;
 
     private final String[][] groundPlay;
     private final String[][] groundOpp;
     private final String[][] groundTransfer;
+
+    // Constructor
 
     public Player(String[][] groundPlay, String[][] groundOpp, String[][] groundTransfer) {
         this.groundPlay     = groundPlay;
@@ -81,7 +86,7 @@ public class Player extends Ships implements User {
             System.out.println("checking Y: " + posY);
         }
         try {
-            return (Objects.equals(groundPlay[posY][posX], "0"));
+            return (Objects.equals(groundPlay[posY][posX], " "));
         } catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Error: " + e);
             return false;
@@ -89,6 +94,7 @@ public class Player extends Ships implements User {
     }
 
     private boolean checkPlacement(int posX, int posY, int rotation, int size){
+        // a method similar to the placement of ships used for verifying their placements
         boolean check = true;
         if(debugMode) System.out.println("size: " + size);
         if(debugMode) System.out.println("rotation: " + rotation);
@@ -109,13 +115,13 @@ public class Player extends Ships implements User {
 
     @Override
     public boolean isGameOver(){
-        return false;
+        return(hits >= shipFields);
     }
 
     // Playing methods
 
     @Override
-    public boolean placeShip(){
+    public void placeShip(){
         boolean err = false;
 
         Scanner sc = new Scanner(System.in);
@@ -164,20 +170,28 @@ public class Player extends Ships implements User {
             default -> 0;
         };
 
-        err =   (posX1 <= -1) ||
-                (posX1 >= 10)    ||
-                (posY1 <= -1) ||
-                (posY1 >= 10)    ||
-                (size == 0)   ||
-                (rotation == 0)  ||
+        // Handling wrong user inputs
+
+        err =   (posX1 <= -1)  || (bat <= -1) ||
+                (posX1 >= 10)  || (cru <= -1) ||
+                (posY1 <= -1)  || (des <= -1) ||
+                (posY1 >= 10)  || (sub <= -1) ||
+                (size == 0)    ||
+                (rotation == 0)||
                 !checkPlacement(posX1, posY1, rotation, size);
 
-        if(!err)
+        if(!err) {
             craftShip(groundPlay, posX1, posY1, rotation, size);
+            switch (size) {
+                case 5 -> bat--;
+                case 4 -> cru--;
+                case 3 -> des--;
+                case 2 -> sub--;
+                default -> size = 0;
+            }
+        }
         else
             System.err.println("Wrong user Input");
-
-        return err;
     }
 
     @Override
@@ -194,25 +208,16 @@ public class Player extends Ships implements User {
 
         try {
             if (Objects.equals(groundTransfer[posY1][posX1], "S")) {
-                groundOpp[posY1][posX1] = "☣";
+                groundOpp[posY1][posX1] = "X";
                 System.out.println("! ! ! Ship hit ! ! !");
+                hits++;
+                shoot();
             } else {
-                groundOpp[posY1][posX1] = "W";
+                groundOpp[posY1][posX1] = "0";
                 System.out.println("- - - Shot missed - - -");
             }
         } catch (ArrayIndexOutOfBoundsException e){
             System.out.println("Error: " + e);
         }
-    }
-
-    // Transfer methods
-
-    public String[][] getGround(){
-        return groundPlay;
-    }
-
-    public void transfer(String[][] groundInput){
-        for(int i = 0; i < groundInput.length; i++)
-            groundTransfer[i] = groundInput[i];
     }
 }

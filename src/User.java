@@ -1,5 +1,8 @@
+/**
+ * An Interface used for inheriting important methods to both the Player and Bot class
+ */
 public interface User {
-    boolean placeShip();
+    void placeShip();
 
     void shoot();
 
