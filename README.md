@@ -1,3 +1,7 @@
+To set up the game install Intellij and download the code of this project as a zip file. 
+In Intellij create a project and navigate to the place in your files, where said project is stored. 
+In the folder of the project, replace all contents with the contents of the zip file. 
+
 Once run in Intellij, the BattleShips project will prompt the user, wether or not they want to play against a bot. 
 This question can be answered with the inputs "y" or "n". 
 
@@ -7,7 +11,7 @@ The position of the ship is based on the first input which is a coordinate.
 Example: "B1"
 
 The type of the ship is equivalent to the size and can be input in several different ways.
-Example: "cru"
+Example: "cru", 
          "submarine"
 
 The rotation/direction of the ship can be input in four different ways. 
